@@ -45,6 +45,14 @@ function getFirstIpAddress(cidrStr, callback) {
   return callback(firstIpAddress, callbackError);
 }
 
+{
+/************
+Andrews code
+************/
+  let addressPair = {"ipv4": firstIpAddress, "ipv6": ipv6Address};
+
+  return callback(addressPair, callbackError);
+}
 
 /*
   This section is used to test function and log any errors.
