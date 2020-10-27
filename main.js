@@ -6,6 +6,23 @@
 */
 const IPCIDR = require('ip-cidr');
 
+/*
+  Import the built-in path module.
+  See https://nodejs.org/api/path.html
+  The path module provides utilities for working with file and directory paths.
+  IAP requires the path module to access local file modules.
+  The path module exports an object.
+  Assign the imported object to variable path.
+*/
+const path = require('path');
+
+/**
+ * Import helper function module located in the same directory
+ * as this module. IAP requires the path object's join method
+ * to unequivocally locate the file module.
+ */
+const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
+
 /**
  * Calculate and return the first host IP address from a CIDR subnet.
  * @param {string} cidrStr - The IPv4 subnet expressed
@@ -38,23 +55,6 @@ function getFirstIpAddress(cidrStr, callback) {
     // Notice the destructering assignment syntax to get the value of the first array's element.
     [firstIpAddress] = cidr.toArray(options);
 
-    /*
-  Import the built-in path module.
-  See https://nodejs.org/api/path.html
-  The path module provides utilities for working with file and directory paths.
-  IAP requires the path module to access local file modules.
-  The path module exports an object.
-  Assign the imported object to variable path.
-*/
-const path = require('path');
-
-/**
- * Import helper function module located in the same directory
- * as this module. IAP requires the path object's join method
- * to unequivocally locate the file module.
- */
-const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
-
     //calls function to get ipv6 address from ipv4
     ipv6Address = getIpv4MappedIpv6Address(firstIpAddress);
   }
@@ -67,7 +67,6 @@ const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
 
   return callback(addressPair, callbackError);
 }
-
 /*
   This section is used to test function and log any errors.
   We will make several positive and negative tests.
@@ -106,7 +105,6 @@ function main() {
     }
   }
 }
-
 /*
   Call main to run it.
 */
